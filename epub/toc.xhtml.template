@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="{{ language }}"
+  xml:lang="{{ language }}">
+  <head>
+    <title>{{ title }}</title>
+    <link href="{{ styleHref }}" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <nav epub:type="toc" id="toc" role="doc-toc">
+      <h2>Table of Contents</h2>
+      <ol>
+        <li>
+          <a href="{{ titleXhtml }}">Title Page</a>
+        </li>
+        <li>
+          <a href="{{ rightXhtml }}">Copyright</a>
+        </li>
+        {{#each chapters}}
+        {{#with this as | chapter |}}
+        <li>
+          <a href="{{ chapter.file }}">{{ chapter.title }}</a>
+            {{#if chapter.subChapters.length }}
+            <ol>
+              {{#each chapter.subChapters}}
+              <li>
+                <a href="{{ chapter.file }}#{{ this.id }}">{{ this.title }}</a>
+              </li>
+              {{/each}}
+            </ol>
+            {{/if}}
+        </li>
+        {{/with}}
+        {{/each}}
+      </ol>
+    </nav>
+  </body>
+</html>

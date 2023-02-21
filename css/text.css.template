@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "{{ fontFamily }}";
+  font-style: normal;
+  font-weight: normal;
+  src: url("{{ fontUrl }}");
+}
+
+body {
+  font-family: "{{ fontFamily }}";
+  line-height: {{ lineHeight }};
+}
+
+p {
+  color: {{ fontColor }};
+}
+
