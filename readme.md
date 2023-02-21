@@ -1,9 +1,5 @@
 # Make Epub
 
-### Simple template
-
-[simple template](https://github.com/IDPF/epub3-samples/tree/main/30/accessible_epub_3/EPUB)
-
 ### Generate
 
 1. [install nodejs](https://nodejs.org).
