@@ -59,12 +59,11 @@ export class TocFactory extends BaseFactory {
   private _extractChapter(file: string): IChapter {
     const filePath = `${this._outputPath.textDir}/${file}`;
     const content = fs.readFileSync(filePath, "utf8");
-    const regexp = /<h2 id="(?<id>[^>]*)">(?<title>.*)<\/h2>/g;
+    const regexp = /<h2[^>]*>(?<title>.*)<\/h2>/g;
     for (const match of content.matchAll(regexp)) {
       if (match?.groups) {
         const subChapters = this._extractSubChapters(file);
         return {
-          id:match.groups.id,
           title:match.groups.title,
           file,
           subChapters

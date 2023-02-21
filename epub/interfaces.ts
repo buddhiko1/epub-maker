@@ -4,7 +4,6 @@ export interface ISubChapter {
 }
 
 export interface IChapter {
-  id:string;
   title: string;
   file: string;
   subChapters: ISubChapter[];

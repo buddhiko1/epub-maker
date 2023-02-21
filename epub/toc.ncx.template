@@ -12,14 +12,14 @@
   <navMap>
     {{#each chapters}}
     {{#with this as | chapter |}}
-    <navPoint id="{{ chapter.id }}">
+    <navPoint>
       <navLabel>
         <text>{{ chapter.title }}</text>
       </navLabel>
       <content src="{{ chapter.file }}" />
       {{#if chapter.subChapters.length }}
       {{#each chapter.subChapters}}
-      <navPoint id="{{ chapter.id }}_{{ @index }}">
+      <navPoint>
         <navLabel>
           <text>{{ this.title }}</text>
         </navLabel>
