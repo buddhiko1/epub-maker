@@ -94,6 +94,9 @@ export class Factory extends BaseFactory {
       `${__dirname}/content.opf.template`,
       "utf8"
     );
+    Handlebars.registerHelper("isTocXhtml", function (value) {
+      return value === GLOBAL_CONF.tocXhtml;
+    });
     const template = Handlebars.compile(contents);
     const textFiles = fs.readdirSync(this._outputPath.textDir);
     let charpterFiles = textFiles.filter((file) => {

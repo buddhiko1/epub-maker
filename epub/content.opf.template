@@ -35,15 +35,23 @@
   {{/with}}
   <manifest>
     {{#each sortedTextFiles}}
-    <item id="{{ this }}" href="text/{{ this }}" media-type="application/xhtml+xml" />
+      {{#if (isTocXhtml this)}}
+        <item id="{{ this }}" properties="nav" href="text/{{ this }}" media-type="application/xhtml+xml" />
+      {{else}}
+        <item id="{{ this }}" href="text/{{ this }}" media-type="application/xhtml+xml" />
+      {{/if}}
     {{/each}}
     {{#each imgFiles}}
-    <item id="{{ this }}" href="images/{{ this }}" media-type="image/{{ imageType }}" />
+      <item id="{{ this }}" href="images/{{ this }}" media-type="image/{{ imageType }}" />
     {{/each}}
   </manifest>
   <spine>
     {{#each sortedTextFiles}}
-    <itemref idref="{{ this }}" />
+      {{#if (isTocXhtml this)}}
+        <itemref idref="{{ this }}" linear="yes"/>
+      {{else}}
+        <itemref idref="{{ this }}" />
+      {{/if}}
     {{/each}}
   </spine>
 </package>

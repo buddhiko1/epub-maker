@@ -10,6 +10,36 @@ import { sortFiles, isChapterFile } from "./utils";
 export class TocFactory extends BaseFactory {
   make(): void {
     this._makeXhtml();
+    // this._makeNcx();
+  }
+
+  private _makeNcx(): void {
+    const chapters = this._getChapters();
+    const data = {
+      title: this._bookConf.name,
+      chapters: chapters,
+    };
+    // toc.xhtml
+    const contents = fs.readFileSync(`${__dirname}/toc.ncx.template`, "utf8");
+    const fileTemplate = Handlebars.compile(contents);
+    const resultString = fileTemplate(data);
+    fs.writeFileSync(this._outputPath.tocNcx, resultString, "utf-8");
+  }
+
+  private _makeXhtml(): void {
+    const chapters = this._getChapters();
+    const data = {
+      language: this._bookConf.metadata.language,
+      styleHref: this._outputPath.tocStyleHref,
+      titleXhtml: `${GLOBAL_CONF.titleXhtml}`,
+      rightXhtml: `${GLOBAL_CONF.rightXhtml}`,
+      title: this._bookConf.name,
+      chapters: chapters,
+    };
+    const contents = fs.readFileSync(`${__dirname}/toc.xhtml.template`, "utf8");
+    const fileTemplate = Handlebars.compile(contents);
+    const resultString = fileTemplate(data);
+    fs.writeFileSync(this._outputPath.tocXhtml, resultString, "utf-8");
   }
 
   private _getChapters(): IChapter[] {
@@ -20,24 +50,25 @@ export class TocFactory extends BaseFactory {
     });
     chapterFiles = sortFiles(chapterFiles);
     for (const file of chapterFiles) {
-      const title = this._extractChapterTitle(file);
-      const subChapters = this._extractSubChapters(file);
-      chapters.push({
-        title,
-        file,
-        subChapters,
-      });
+      const chapter = this._extractChapter(file);
+      chapters.push(chapter);
     }
     return chapters;
   }
 
-  private _extractChapterTitle(file: string): string {
+  private _extractChapter(file: string): IChapter {
     const filePath = `${this._outputPath.textDir}/${file}`;
     const content = fs.readFileSync(filePath, "utf8");
-    const regexp = /<h2[^>]*>(?<title>.*)<\/h2>/g;
+    const regexp = /<h2 id="(?<id>[^>]*)">(?<title>.*)<\/h2>/g;
     for (const match of content.matchAll(regexp)) {
       if (match?.groups) {
-        return match.groups.title;
+        const subChapters = this._extractSubChapters(file);
+        return {
+          id:match.groups.id,
+          title:match.groups.title,
+          file,
+          subChapters
+        }
       }
     }
     throw Error(`Can't extract chapter title in the ${file}!`);
@@ -57,20 +88,5 @@ export class TocFactory extends BaseFactory {
       }
     }
     return subChapters;
-  }
-
-  private _makeXhtml(): void {
-    const chapters = this._getChapters();
-    const contents = fs.readFileSync(`${__dirname}/toc.xhtml.template`, "utf8");
-    const fileTemplate = Handlebars.compile(contents);
-    const data = {
-      language: this._bookConf.metadata.language,
-      styleHref: this._outputPath.tocStyleHref,
-      titleXhtml: `${GLOBAL_CONF.titleXhtml}`,
-      rightXhtml: `${GLOBAL_CONF.rightXhtml}`,
-      chapters: chapters,
-    };
-    const resultString = fileTemplate(data);
-    fs.writeFileSync(this._outputPath.tocXhtml, resultString, "utf-8");
   }
 }

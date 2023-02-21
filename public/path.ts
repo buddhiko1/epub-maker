@@ -75,6 +75,9 @@ export class OutputPath extends BasePath {
   get tocXhtml(): string {
     return `${this.textDir}/${GLOBAL_CONF.tocXhtml}`;
   }
+  get tocNcx(): string {
+    return `${this.bookDir}/toc.ncx`;
+  }
   get coverXhtml(): string {
     return `${this.textDir}/${GLOBAL_CONF.coverPrefix}.xhtml`;
   }

@@ -1,6 +1,6 @@
 export const GLOBAL_CONF = {
   srcDir: `${__dirname}/data`, // dir of book raw data
-  outputDir: `${__dirname}/temp`, // temporary dir for building epub
+  outputDir: `${__dirname}/output`, // temporary dir for building epub
   textDir: "text",
   fontDir: "fonts",
   imageDir: "images",
