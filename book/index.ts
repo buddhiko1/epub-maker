@@ -21,23 +21,18 @@ export class Factory extends BaseFactory {
   }
 
   private _init(): void {
-    if (!fs.existsSync(this._outputPath.baseDir)) {
-      fs.mkdirSync(this._outputPath.baseDir, { recursive: true });
-    }
-    if (!fs.existsSync(this._outputPath.textDir)) {
-      fs.mkdirSync(this._outputPath.textDir, { recursive: true });
-    }
-    if (!fs.existsSync(this._outputPath.imageDir)) {
-      fs.mkdirSync(this._outputPath.imageDir, { recursive: true });
-    }
-    if (!fs.existsSync(this._outputPath.fontDir)) {
-      fs.mkdirSync(this._outputPath.fontDir, { recursive: true });
-    }
-    if (!fs.existsSync(this._outputPath.styleDir)) {
-      fs.mkdirSync(this._outputPath.styleDir, { recursive: true });
-    }
-    if (!fs.existsSync(this._outputPath.containerDir)) {
-      fs.mkdirSync(this._outputPath.containerDir, { recursive: true });
+    const dirList = [
+      this._outputPath.baseDir,
+      this._outputPath.textDir,
+      this._outputPath.imageDir,
+      this._outputPath.fontDir,
+      this._outputPath.styleDir,
+      this._outputPath.containerDir,
+    ]
+    for (const dir of dirList) {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
     }
   }
 
